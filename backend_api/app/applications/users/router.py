@@ -1,6 +1,8 @@
-from fastapi import APIrouter
+from fastapi import APIRouter
 
-router_users = APIrouter()
-
+router_users = APIRouter()
+@router_users.get('/')
+async def index():
+    return {}
 
 
