@@ -11,10 +11,10 @@ services:
     volumes:
       - ./documentation:/docs:ro
 
-  local_database:
+  database:
     image: postgres:16-alpine
-    container_name: local_database
-    hostname: local_database
+    container_name: database
+    hostname: database
     restart: always
     env_file:
       - .env
@@ -22,6 +22,24 @@ services:
       - "6655:5432"
     volumes:
       - postgres_datastorage:/var/lib/postgresql/data
+    networks:
+      - main_network
+
+  backend_api:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend_api
+    container_name: local_database
+    hostname: local_database
+    restart: always
+    env_file:
+      - .env
+    ports:
+        - "9999:9999"
+    command: |
+      sh -c "
+      uvicorn main:app --port=9999 --host=0.0.0.0 --reload
+      "
     networks:
       - main_network
 
