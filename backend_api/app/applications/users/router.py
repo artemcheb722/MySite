@@ -1,8 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
+
+from applications.users.schemas import UserFields
 
 router_users = APIRouter()
-@router_users.get('/')
-async def index():
-    return {}
+@router_users.post('/create', status_code=status.HTTP_201_CREATED)
+async def creat_user(
+        new_user: UserFields
+) -> UserFields:
+    return new_user
 
 
