@@ -1,4 +1,3 @@
-version: "3.8"
 
 services:
   documentation:
@@ -14,7 +13,7 @@ services:
   database:
     image: postgres:16-alpine
     container_name: database
-    hostname: database
+    hostname: local_database
     restart: always
     env_file:
       - .env
@@ -29,8 +28,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./backend_api
-    container_name: local_database
-    hostname: local_database
+    container_name: backend_api
+    hostname: backend_api
     restart: always
     env_file:
       - .env
