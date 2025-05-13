@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     POSTGRES_HOST: str
 
+    DEBUG: bool = False
     @property
     def DATABASE_URL_ASYNC(self) -> str:
         return (
