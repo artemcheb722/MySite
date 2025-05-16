@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from applications.auth.password_handler import PasswordEncrypt
 from applications.users.crud import create_user_in_db
-from applications.users.models import User
 from applications.users.schemas import BaseFields, RegisterUserFields
 from database.session_dependencies import get_async_session
 
