@@ -11,4 +11,5 @@ class PasswordEncrypt:
 
     @classmethod
     async def verify_password(cls, plain_password: str, hashed_password: str) -> bool:
+        print(111111111)
         return cls.pwd_context.verify(plain_password, hashed_password)
