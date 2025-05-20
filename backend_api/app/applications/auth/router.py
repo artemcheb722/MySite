@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from applications.users.schemas import BaseUserInfo
 from applications.auth.auth_handler import auth_handler
 from applications.auth.security import get_current_user
 from applications.users.models import User
@@ -20,5 +20,5 @@ async def user_login(
 
 
 @router_auth.get("/get_my_info")
-async def get_my_info(user: User = Depends(get_current_user)):
-    pass
+async def get_my_info(user: User = Depends(get_current_user)) -> BaseUserInfo:
+    return user
