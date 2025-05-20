@@ -15,3 +15,7 @@ async def user_login(
 ):
     token_pair = await auth_handler.get_login_token_pairs(data, session)
     return token_pair
+
+@router_auth.get("/get_my_info")
+async def get_my_info():
+    pass
