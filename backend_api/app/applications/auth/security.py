@@ -16,7 +16,8 @@ async def get_current_user(
     token: str = Depends(SecurityHandler.oauth2_scheme),
     session: AsyncSession = Depends(get_async_session),
 ) -> User:
-    payload = await auth_handler.decode_token(get_async_session)
-    user = await get_user_by_email(user_email, session)
+    payload = await auth_handler.decode_token(token)
+    user = await get_user_by_email(payload["user_email"], session)
     if not user:
-        raise HTTPException(status_code=status.HTT)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
+    return user
