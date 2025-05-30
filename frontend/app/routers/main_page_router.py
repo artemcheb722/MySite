@@ -1,3 +1,5 @@
+from os import access
+
 from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 import httpx
@@ -28,6 +30,7 @@ async def login(request: Request, user_email: str= Form(''), password: str= Form
         user = await get_user_info(access_token)
     context = {'request': request, "user": user}
     response = templates.TemplateResponse('login.html', context=context)
+    response.set_cookie(key="access_token", value=access_token, httponly=True, max_age=15)
     return response
 
 
