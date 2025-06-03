@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Form, Depends, status
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import  RedirectResponse
 import httpx
+from settings import settings
 router = APIRouter()
 
 templates = Jinja2Templates(directory='templates')
@@ -34,7 +35,7 @@ async def index(request: Request):
 async def login_user(user_email: str, password: str):
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            url='http://backend_api:9999/api/auth/login',
+            url=f'{settings.BACKEND_API}auth/login',
             data={"username": user_email, 'password': password}
 
         )
@@ -45,7 +46,7 @@ async def login_user(user_email: str, password: str):
 async def get_user_info(access_token: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(
-            url='http://backend_api:9999/api/auth/get_my_info',
+            url=f'{settings.BACKEND_API}auth/get_my_info',
             headers={"Authorization": f'Bearer {access_token}'}
 
         )
