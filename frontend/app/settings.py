@@ -7,6 +7,8 @@ class Settings(BaseSettings):
 
     DEBUG: bool = False
 
+    BACKEND_API: str
+
 
 @lru_cache()
 def get_settings() -> Settings:
