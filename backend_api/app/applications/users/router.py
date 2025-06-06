@@ -3,7 +3,7 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from applications.users.crud import create_user_in_db, get_user_by_email, activate_user_account
+from applications.users.crud import activate_user_account, create_user_in_db, get_user_by_email
 from applications.users.schemas import BaseUserInfo, RegisterUserFields
 from database.session_dependencies import get_async_session
 
@@ -21,7 +21,7 @@ async def creat_user(new_user: RegisterUserFields, session: AsyncSession = Depen
     return created_user
 
 
-@router_users.get('/verify/{user_uuid}')
+@router_users.get("/verify/{user_uuid}")
 async def verify_user(user_uuid: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
     await activate_user_account(user_uuid, session)
     return {"Status": "activated"}

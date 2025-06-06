@@ -21,4 +21,3 @@ class User(Base):
     hashed_password: Mapped[str]
     is_admin: Mapped[bool] = mapped_column(default=False, nullable=True)
     is_verified: Mapped[bool] = mapped_column(default=False, nullable=True)
-
