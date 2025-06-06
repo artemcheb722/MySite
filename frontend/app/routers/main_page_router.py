@@ -95,8 +95,7 @@ async def register(
         return response
 
     created_user = await register_user(user_email=user_email, password=password, name=user_name)
-    if created_user['email']:
-
+    if created_user.get('email'):
         user_tokens = await login_user(user_email, password)
         access_token = user_tokens.get('access_token')
         response = RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
