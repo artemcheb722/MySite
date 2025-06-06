@@ -6,7 +6,7 @@ from fastapi import Request
 async def login_user(user_email: str, password: str):
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            url=f'{settings.BACKEND_API}auth/login',
+            url=f'{settings.BACKEND_API}/auth/login',
             data={"username": user_email, 'password': password}
 
         )
@@ -28,7 +28,7 @@ async def register_user(user_email: str, password: str, name: str):
 async def get_user_info(access_token: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(
-            url=f'{settings.BACKEND_API}auth/get_my_info',
+            url=f'{settings.BACKEND_API}/auth/get_my_info',
             headers={"Authorization": f'Bearer {access_token}'}
 
         )
