@@ -54,6 +54,7 @@ services:
       - main_network
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+
   frontend:
     build:
       dockerfile: Dockerfile
@@ -73,6 +74,22 @@ services:
       "
     networks:
       - main_network
+
+  notification:
+    build:
+      dockerfile: Dockerfile
+      context: ./notification_service
+    container_name: notification
+    hostname: notification
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./notification_service/app:/app
+    command: |
+      sh -c "
+      python /app/main.py
+      "
 
 
 networks:
