@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     RMQ_PORT: int
     RMQ_VIRTUAL_HOST: str
     RMQ_USER: str
-    RMQ_PASSWORD : str
+    RMQ_PASSWORD: str
 
     @property
     def DATABASE_URL_ASYNC(self) -> str:
