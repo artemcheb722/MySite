@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Body, UploadFile, Depends
 import uuid
 from applications.auth.security import admin_required
-from applications.products.schemas import ProductSchema
+from applications.products.schemas import ProductSchema, SearchParamsSchema
 from sqlalchemy.ext.asyncio import AsyncSession
-from applications.products.crud import create_product_in_db
+from applications.products.crud import create_product_in_db, get_products_data
 from services.s3.s3 import s3_storage
 from database.session_dependencies import get_async_session
+from typing import Annotated
 
 products_router = APIRouter()
 
@@ -36,5 +37,6 @@ async def create_product(
 async def get_product(pk: int):
     return
 @products_router.get('/')
-async def get_products():
-    return
+async def get_products(params: Annotated[SearchParamsSchema, Depends()], session: AsyncSession = Depends(get_async_session)):
+    result = await get_products_data(params, session)
+    return result
