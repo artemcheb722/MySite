@@ -1,14 +1,24 @@
 from fastapi import APIRouter, Body, UploadFile, Depends, HTTPException, status
 import uuid
-from applications.auth.security import admin_required
+from applications.auth.security import admin_required, get_current_user
 from applications.products.schemas import ProductSchema, SearchParamsSchema
 from sqlalchemy.ext.asyncio import AsyncSession
-from applications.products.crud import create_product_in_db, get_products_data, get_product_by_pk
+from applications.products.crud import create_product_in_db, get_products_data, get_product_by_pk, get_or_create_cart
 from services.s3.s3 import s3_storage
 from database.session_dependencies import get_async_session
 from typing import Annotated
+from applications.users.models import User
 
 products_router = APIRouter()
+cart_router = APIRouter()
+
+@cart_router.get("/")
+async def get_current_cart(
+    user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_async_session),
+):
+    cart = await get_or_create_cart(user_id=user.id, session=session)
+
 
 @products_router.post(
     '/',

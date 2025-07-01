@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_,  and_, func
 
 from applications.auth.password_handler import PasswordEncrypt
-from applications.products.models import Product
+from applications.products.models import Product, Cart
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from applications.products.schemas import SearchParamsSchema, SortEnum, SortByEnum
@@ -79,3 +79,16 @@ async def get_product_by_pk(pk: int, session: AsyncSession) -> Product | None:
     query = select(Product).filter(Product.id == pk)
     result = await session.execute(query)
     return result.scalar_one_or_none()
+
+async def get_or_create_cart(user_id: int, session: AsyncSession) -> Cart:
+    query = select(Cart).filter_by(user_id=user_id, is_closed=False)
+    result = await session.execute(query)
+    cart = result.scalar_one_or_none()
+
+    if cart:
+        return cart
+
+    cart = Cart(user_id=user_id, is_closed=False)
+    session.add(cart)
+    await session.commit()
+    return cart
