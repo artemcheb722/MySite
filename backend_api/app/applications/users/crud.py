@@ -30,3 +30,4 @@ async def activate_user_account(user_uuid, session: AsyncSession):
     user.is_verified = True
     session.add(user)
     await session.commit()
+
